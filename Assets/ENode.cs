@@ -15,13 +15,16 @@ public class ENode : MonoBehaviour
         node.eNode = this;
     }
 
-    public static ENode Create(Vector3 position, List<ENode> connections = null)
+    public static ENode Create(Vector3 position, Network network, List<ENode> connections = null)
     {
-        var obj = new GameObject();
+        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         obj.transform.position = position;
+        obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         ENode enode = obj.AddComponent<ENode>();
         enode.node = new Node();
         obj.name = $"Node {id++}";
+        network.AddNode(enode.node);
+        enode.node.network= network;
         
         if (connections != null)
             foreach (ENode _enode in connections)
@@ -30,5 +33,14 @@ public class ENode : MonoBehaviour
             }   
 
         return enode;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        foreach (Node _node in node.neighbours)
+        {
+            Gizmos.DrawLine(transform.position, _node.eNode.transform.position);
+        }
     }
 }

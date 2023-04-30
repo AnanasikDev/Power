@@ -7,6 +7,7 @@ using UnityEngine;
 public class Node
 {
     public ENode eNode;
+    public Network network;
 
     public static int ID = 0;
     public int id = 0;
