@@ -1,33 +1,35 @@
 ﻿using UnityEngine;
 
-//[ExecuteInEditMode]
-public class PowerEngine : MonoBehaviour
+public class PowerEngine : ENode
 {
-    public PowerMechanism[] attachedPowerMechanisms;
     public bool powered { get; protected set; }
     public void TurnOn()
     {
-        powered = true;
-        foreach (PowerMechanism powerMechanism in attachedPowerMechanisms)
+        Node[] nodes = Electricity.network.DFS(node);
+
+        EasyDebug.LogCollection(nodes);
+
+        foreach (Node _node in nodes)
         {
-            powerMechanism.TurnOn();
+            _node.eNode.Plug = true;
         }
     }
     public void TurnOff()
     {
-        powered = false;
-        foreach (PowerMechanism powerMechanism in attachedPowerMechanisms)
+        Node[] nodes = Electricity.network.DFS(node);
+
+        foreach (Node _node in nodes)
         {
-            powerMechanism.TurnOff();
+            _node.eNode.Plug = false;
         }
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             TurnOn();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             TurnOff();
         }

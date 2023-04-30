@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class Network : MonoBehaviour
+public class Network
 {
-    private List<Node> nodes = new List<Node>();
-    private int length { get { return nodes.Count; } }
+    public readonly List<Node> nodes = new List<Node>();
+    public int length { get { return nodes.Count; } }
 
     public void AddNode(Node node)
     {
         nodes.Add(node);
+    }
+    public void AddNodes(Node[] nodes)
+    {
+        foreach (Node node in nodes) AddNode(node);
     }
 
     /// <summary>

@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Node
 {
-    public static int ID = 0;
+    public ENode eNode;
 
+    public static int ID = 0;
     public int id = 0;
 
     public List<Node> neighbours = new List<Node>();
@@ -14,6 +17,12 @@ public class Node
     public Node()
     {
         id = ID++;
+    }
+    public Node(ENode eNode)
+    {
+        this.eNode = eNode;
+        id = ID++;
+        EasyDebug.Log(id);
     }
 
     public void Connect(Node node)

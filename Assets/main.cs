@@ -1,31 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class main : MonoBehaviour
 {
     void Start()
     {
-        Network network = new Network();
-        
-        Node n1 = new Node();
-        Node n2 = new Node();
-        Node n3 = new Node();
-        Node n4 = new Node();
-        Node n5 = new Node();
+        ENode[] enodes = (ENode[])FindObjectsOfType(typeof(ENode));
 
-        n1.Connect(n2);
-        n2.Connect(n3);
-        n4.Connect(n5);
+        Electricity.network.AddNodes(enodes.Select(x => x.node).ToArray());
 
-        network.AddNode(n1);
-        network.AddNode(n2);
-        network.AddNode(n3);
-        network.AddNode(n4);
-        network.AddNode(n5);
-
-        var a = network.DFS(n4);
-
-        EasyDebug.LogCollection(a);
+        var a = ENode.Create(new Vector3(0, 1));
+        var b = ENode.Create(new Vector3(1, 1), new List<ENode> { a });
+        var c = ENode.Create(new Vector3(1, 3), new List<ENode> { a, b });
+        var d = ENode.Create(new Vector3(2, 3), new List<ENode> { b });
+        var e = ENode.Create(new Vector3(4, 3), new List<ENode> { b });
     }
 }
