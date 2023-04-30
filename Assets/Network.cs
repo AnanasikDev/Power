@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 
 public class Network
 {
@@ -57,5 +59,33 @@ public class Network
         Dictionary<Node, Node[]> adjacencyList = GetAdjacencyList();
         __dfs(visited, adjacencyList, startNode);
         return visited.ToArray();
+    }
+
+    public Dictionary<Node, int> BFS(Node startNode)
+    {
+        Dictionary<Node, int> visited = new Dictionary<Node, int>() { { startNode, 0 } };
+        List<Node> queue = new List<Node>() { startNode };
+
+        Dictionary<Node, Node[]> adjacencyList = GetAdjacencyList();
+
+        int depth = 0;
+
+        while (queue.Count > 0)
+        {
+            Node node = queue[0];
+            queue.RemoveAt(0);
+
+            depth++;
+
+            foreach (Node neighbour in adjacencyList[node])
+            {
+                if (visited.ContainsKey(neighbour)) continue;
+
+                visited.Add(neighbour, depth);
+                queue.Add(neighbour);
+            }
+        }
+
+        return visited;
     }
 }
