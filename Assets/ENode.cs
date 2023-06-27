@@ -7,10 +7,16 @@ public class ENode : MonoBehaviour
     private static int id = 0;
 
     public Node node;
+    public int Power = 0;
 
-    public bool Plug = false;
+    public Producer producer = null;
+    public Consumer consumer = null;
 
-    private void Start()
+    public bool visited = false;
+
+    private void Start() => Init();
+
+    public virtual void Init()
     {
         node.eNode = this;
     }
@@ -22,6 +28,7 @@ public class ENode : MonoBehaviour
         obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         ENode enode = obj.AddComponent<ENode>();
         enode.node = new Node();
+        enode.node.eNode = enode;
         obj.name = $"Node {id++}";
         network.AddNode(enode.node);
         enode.node.network= network;
@@ -34,7 +41,7 @@ public class ENode : MonoBehaviour
 
         return enode;
     }
-
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

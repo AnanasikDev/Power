@@ -88,4 +88,24 @@ public class Network
 
         return visited;
     }
+
+    public List<Node> FindConsumers(Node startNode)
+    {
+        Node[] _nodes = DFS(startNode);
+        return _nodes.Where(node => node.eNode is IConsumer).ToList();
+    }
+
+    public List<Node> FindProducers(Node startNode)
+    {
+        Node[] _nodes = DFS(startNode);
+        return _nodes.Where(node => node.eNode is IGenerator).ToList();
+    }
+
+    public (int, int) CalculateConsumptionAndProduction(Node startNode)
+    {
+        List<Node> consumers = FindConsumers(startNode);
+        List<Node> producers = FindProducers(startNode);
+        return (consumers.Select(consumer => consumer.eNode.consumer.Consumption).Sum(),
+                producers.Select(producer => producer.eNode.producer.Production ).Sum());
+    }
 }
